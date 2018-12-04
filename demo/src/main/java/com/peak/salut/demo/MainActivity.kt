@@ -59,6 +59,7 @@ class MainActivity : AppCompatActivity() {
         val serviceData = SalutServiceData("sas", 50489, instanceName)
 
         salut = MySalut(dataReceiver, serviceData, SalutCallback {
+            Toast.makeText(this.baseContext, "Device does not support WiFi P2P", Toast.LENGTH_SHORT).show()
             Log.e(TAG, "Device does not support WiFi P2P")
         })
 
@@ -71,10 +72,12 @@ class MainActivity : AppCompatActivity() {
 
             salut.startNetworkService({
                 connectedDevicesAdapter.add(it)
-                Toast.makeText(this.baseContext, it.readableName + " connected.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.baseContext, it.readableName + " connected.", Toast.LENGTH_SHORT).show()
             }, {
+                Toast.makeText(this.baseContext, "Network service started", Toast.LENGTH_SHORT).show()
                 Log.d(TAG, "Network service started")
             }, {
+                Toast.makeText(this.baseContext, "Can not start network service", Toast.LENGTH_SHORT).show()
                 Log.e(TAG, "Can not start network service")
             })
         }
@@ -88,6 +91,7 @@ class MainActivity : AppCompatActivity() {
                     Log.d(TAG, "Successfully registered")
                     Toast.makeText(this.baseContext, "Successfully connected to " + this.salut.registeredHost.readableName, Toast.LENGTH_SHORT).show();
                 }, {
+                    Toast.makeText(this.baseContext, "Error registering", Toast.LENGTH_SHORT).show()
                     Log.e(TAG, "Error registering")
                 })
             }
